@@ -94,24 +94,43 @@ solveipfp <- function(phi, p, q, epsconv=1e-6, maxiter=1000) {
   list(status, list(muXY, muX0, mu0Y), niter, diter)
 }
 
-######                  Example                    ######
-nx <- 7
-ny <- 5
-p <- c(2, 4, 6, 3, 5, 7, 5)
-q <- c(3, 9, 7, 2, 4)
-x <- seq(nx)
-y <- seq(ny)
-dxy <-  outer(x, y, "-")
-Phi <- -dxy*dxy
-resmu <- solveipfp(Phi, p, q)
-status <- resmu[[1]]
-if (status == 0) {
-  muopt <- resmu[[2]]
-  niter <- resmu[[3]]
-  diter <- resmu[[4]]
-  cat("Done in ", niter, " iterations; up to ", diter, "\n")
-  muxy <- muopt[[1]]
-  print(muxy)
-} else {
-  cat("Failed to converge in ", niter, "iterations; distance ", diter, "\n")
+############################################################
+######                  Example                       ######
+############################################################
+
+runExample <- F
+
+if (runExample) {
+  nx <- 7
+  ny <- 5
+  p <- c(2, 4, 6, 3, 5, 7, 5)
+  q <- c(3, 9, 7, 2, 4)
+  x <- seq(nx)
+  y <- seq(ny)
+  dxy <-  outer(x, y, "-")
+  Phi <- -dxy*dxy
+  resmu <- solveipfp(Phi, p, q)
+  status <- resmu[[1]]
+  if (status == 0) {
+    muopt <- resmu[[2]]
+    niter <- resmu[[3]]
+    diter <- resmu[[4]]
+    cat("Done in ", niter, " iterations; up to ", diter, "\n")
+    muxy <- muopt[[1]]
+    print(muxy)
+  } else {
+    cat("Failed to converge in ", niter, "iterations; distance ", diter, "\n")
+  }
 }
+
+## expected results:
+
+## Done in  11  iterations; up to  2.630866e-07
+##              [,1]         [,2]        [,3]       [,4]         [,5]
+## [1,] 7.242520e-01 7.762220e-01 0.133029546 0.00362425 0.0001638729
+## [2,] 6.121753e-01 1.783473e+00 0.830851061 0.06153010 0.0075626028
+## [3,] 2.043798e-01 1.618539e+00 2.049624565 0.41260384 0.1378514666
+## [4,] 1.233869e-02 2.656127e-01 0.914312141 0.50032006 0.4543813778
+## [5,] 6.650319e-04 3.891497e-02 0.364130249 0.54163244 1.3371242327
+## [6,] 1.062023e-05 1.689284e-03 0.042967216 0.17373191 1.1658459689
+## [7,] 3.990231e-08 1.725286e-05 0.001192862 0.01311074 0.2391570180
